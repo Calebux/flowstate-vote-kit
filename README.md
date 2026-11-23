@@ -40,3 +40,7 @@ If your alias is different, adjust it.
 - **Smart/contract wallets** can't sign the claim this way. Send those users to Flowstate's own page (the example links to it).
 - The route accepts only same-origin requests that carry the `x-flow-vote: 1` header.
 - If the council's `maxVotingSpread` (the most projects one ballot may back) is already used up by the user's other votes, they'll be asked to edit their ballot on Flowstate first.
+
+## License
+
+MIT. See [LICENSE](LICENSE). Use it, copy it, change it.
