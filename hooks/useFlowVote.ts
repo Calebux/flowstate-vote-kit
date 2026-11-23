@@ -22,6 +22,8 @@ function isInsufficientFunds(err: unknown): boolean {
   return /insufficient funds|insufficient balance|exceeds balance|gas required exceeds|InsufficientFunds/i.test(text) || isInsufficientFunds(e.cause);
 }
 
+// Prefilled vote amount for a first-time voter (capped at what they can give).
+const DEFAULT_VOTES = 10n;
 type Pending = { hash: Hash; amount: string };
 type Review = { snapshotKey: string; amount: string; votes: FlowVote[]; fee: string };
 const pendingKey = (address: Address) => `flow-vote:${FLOW_CHAIN}:${FLOW_COUNCIL}:${address.toLowerCase()}`;
@@ -76,7 +78,7 @@ export function useFlowVote(address: Address) {
     assertOwner();
     setMetadata(meta); setSnapshot(state); setReview(null);
     const allocation = flowAllocation(state);
-    setAmountState(allocation.current > 0n ? String(allocation.current) : allocation.maximum > 0n ? "1" : "");
+    setAmountState(allocation.current > 0n ? String(allocation.current) : allocation.maximum > 0n ? String(allocation.maximum < DEFAULT_VOTES ? allocation.maximum : DEFAULT_VOTES) : "");
     return state;
   }, [assertOwner, readSnapshot]);
 
